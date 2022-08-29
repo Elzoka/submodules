@@ -1,0 +1,1 @@
+/home/elzoka/Desktop/learn/git/submodules/resume-builder/src/persistence/models/model.js
