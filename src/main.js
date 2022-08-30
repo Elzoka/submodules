@@ -1,4 +1,4 @@
-const model = require('./models/index.js')
+const model = require('../model')
 
 module.exports = () => {
   console.log(model)
