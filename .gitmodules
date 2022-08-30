@@ -1,3 +1,6 @@
 [submodule "resume-builder"]
 	path = resume-builder
 	url = git@github.com:Elzoka/resume-builder.git
+[submodule "resume"]
+	path = resume
+	url = git@github.com:Elzoka/resume-builder.git
