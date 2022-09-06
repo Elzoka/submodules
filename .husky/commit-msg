@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+const Husky = require('./git')
+class CommitMsg extends Husky {
+  run(){
+    const message = this.git.parseMessage(process.argv[2])
+
+    this.runBasicHuskyScript()
+    this.submodules.add();
+    this.submodules.commit(message);
+    this.git.add()
+  }
+}
+
+const CommitMsgHook = new CommitMsg()
+CommitMsgHook.run();
+

@@ -1,0 +1,59 @@
+#!/usr/bin/env node
+
+const Path = require('path')
+const ChildProcess = require('child_process')
+const Fs = require('fs')
+
+
+class Executable {
+  execSync(command, options){
+    return ChildProcess.execSync(command, {encoding: 'utf-8', ...options})
+  }
+}
+
+class SubModule extends Executable {
+  add(){
+    this.execSync(`git submodule foreach git add .`)
+  }
+
+  commit(message){
+    try {
+      // would commit for all submodules and fails if nothing exists
+      this.execSync(`git submodule foreach git commit -m '${message}'`)
+    }catch(e){}
+  }
+}
+
+class Git extends Executable {
+  add(){
+    console.log('here 777')
+    return this.execSync(`git add .`)
+  }
+
+  commit(message, flags = []){
+    let command = `git commit ${flags.join(' ')}`;
+
+    if (message) command += `-m '${message}'`
+
+    return this.execSync(command)
+  }
+
+  parseMessage(messagePath){
+    return Fs.readFileSync(messagePath, {encoding: 'utf-8'}).trim()
+  }
+}
+
+class Husky extends Executable {
+  constructor(){
+    super()
+
+    this.git = new Git()
+    this.submodules = new SubModule()
+  }
+  runBasicHuskyScript(){
+    return this.execSync(`sh ${Path.join(__dirname, '_', 'husky.sh')}`)
+  }
+
+}
+
+module.exports = Husky
