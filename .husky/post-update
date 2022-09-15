@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+
+// const {simpleGit} = require("simple-git")
+// const git = simpleGit()
+
+
+const Husky = require('./git')
+class PostUpdate extends Husky {
+  run(){
+    this.runBasicHuskyScript()
+    
+    this.submodules.push()
+  }
+}
+
+const PostUpdateHook = new PostUpdate()
+PostUpdateHook.run();
+

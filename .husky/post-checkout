@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+const SimpleGit = require("simple-git").simpleGit()
+
+const Husky = require('./git')
+console.log(Husky)
+class PostCheckout extends Husky {
+  run(){
+    this.runBasicHuskyScript()
+    const branchName = this.git.getBranchName()
+    this.submodules.checkout(branchName)
+  }
+}
+
+const PostCheckoutHook = new PostCheckout()
+PostCheckoutHook.run();
+

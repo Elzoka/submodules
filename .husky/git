@@ -4,7 +4,6 @@ const Path = require('path')
 const ChildProcess = require('child_process')
 const Fs = require('fs')
 
-
 class Executable {
   execSync(command, options){
     return ChildProcess.execSync(command, {encoding: 'utf-8', ...options})
@@ -22,6 +21,17 @@ class SubModule extends Executable {
       this.execSync(`git submodule foreach git commit -m '${message}'`)
     }catch(e){}
   }
+
+  checkout(branchName){
+    try {
+      // would commit for all submodules and fails if nothing exists
+      this.execSync(`git submodule foreach git checkout -b ${branchName}`)
+    }catch(e){}
+  }
+
+  push(){
+    this.execSync(`git submodule foreach git push`)
+  }
 }
 
 class Git extends Executable {
@@ -36,6 +46,10 @@ class Git extends Executable {
     if (message) command += `-m '${message}'`
 
     return this.execSync(command)
+  }
+
+  getBranchName() {
+    return this.execSync('git branch --show-current')
   }
 
   parseMessage(messagePath){

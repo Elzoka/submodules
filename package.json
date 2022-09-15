@@ -12,5 +12,8 @@
   "license": "ISC",
   "devDependencies": {
     "husky": "^8.0.1"
+  },
+  "dependencies": {
+    "simple-git": "^3.14.0"
   }
 }
